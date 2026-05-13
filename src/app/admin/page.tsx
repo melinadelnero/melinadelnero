@@ -42,7 +42,7 @@ export default function AdminPage() {
                 {s === 'gallery' && '→ Galería'}
                 {s === 'bio' && '→ Bio'}
                 {s === 'contact' && '→ Contacto'}
-                {s === 'marquees' && '→ Marquees'}
+                {s === 'marquees' && '→ Textos'}
               </button>
             ))}
           </nav>

@@ -58,10 +58,18 @@ export interface MarqueeSet {
   events: string[]
 }
 
+export interface HeroTexts {
+  est: string
+  vol: string
+  tagline: string
+  scroll_label: string
+}
+
 export interface SiteContent {
   id: number
   bio: Bio
   contact: ContactData
   marquees?: MarqueeSet
+  hero?: HeroTexts
   updated_at: string
 }

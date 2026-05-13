@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import type { MarqueeSet } from '@/lib/types'
-import { SEED_MARQUEES } from '@/lib/seed'
+import type { MarqueeSet, HeroTexts } from '@/lib/types'
+import { SEED_MARQUEES, SEED_HERO_TEXTS } from '@/lib/seed'
 
 type BandEditorProps = {
   band: 'hero' | 'events'
@@ -42,14 +42,16 @@ function BandEditor({ band, label, items, onUpdate, onAdd, onRemove }: BandEdito
 
 export default function MarqueesPanel() {
   const [form, setForm] = useState<MarqueeSet>(SEED_MARQUEES)
+  const [hero, setHero] = useState<HeroTexts>(SEED_HERO_TEXTS)
   const [loading, setLoading] = useState(false)
   const [saved, setSaved] = useState(false)
 
   const supabase = createClient()
 
   useEffect(() => {
-    supabase.from('site_content').select('marquees').eq('id', 1).single().then(({ data }) => {
+    supabase.from('site_content').select('marquees, hero').eq('id', 1).single().then(({ data }) => {
       if (data?.marquees) setForm(data.marquees as MarqueeSet)
+      if (data?.hero) setHero(data.hero as HeroTexts)
     })
   }, [])
 
@@ -66,9 +68,9 @@ export default function MarqueesPanel() {
     setLoading(true)
     const { data } = await supabase.from('site_content').select('id').eq('id', 1).single()
     if (data) {
-      await supabase.from('site_content').update({ marquees: form }).eq('id', 1)
+      await supabase.from('site_content').update({ marquees: form, hero }).eq('id', 1)
     } else {
-      await supabase.from('site_content').insert({ id: 1, bio: {}, contact: {}, marquees: form })
+      await supabase.from('site_content').insert({ id: 1, bio: {}, contact: {}, marquees: form, hero })
     }
     setLoading(false)
     setSaved(true)
@@ -78,11 +80,34 @@ export default function MarqueesPanel() {
   return (
     <>
       <div className="admin-head">
-        <h2>Marquees <em>panel</em></h2>
+        <h2>Textos <em>panel</em></h2>
         <button className="btn-add" onClick={save} disabled={loading}>
-          {loading ? 'Guardando...' : saved ? '✓ Guardado' : 'Guardar marquees'}
+          {loading ? 'Guardando...' : saved ? '✓ Guardado' : 'Guardar todo'}
         </button>
       </div>
+
+      <div className="admin-section">
+        <div className="admin-section-head"><h3>Hero — pie de pantalla</h3></div>
+        <div className="form-grid">
+          <div className="field">
+            <label>Año (ej. EST. 2022)</label>
+            <input type="text" value={hero.est} onChange={e => setHero(h => ({ ...h, est: e.target.value }))} />
+          </div>
+          <div className="field">
+            <label>Volumen (ej. VOL. 08)</label>
+            <input type="text" value={hero.vol} onChange={e => setHero(h => ({ ...h, vol: e.target.value }))} />
+          </div>
+          <div className="field">
+            <label>Tagline derecha (ej. CABINA ✦ RITUAL)</label>
+            <input type="text" value={hero.tagline} onChange={e => setHero(h => ({ ...h, tagline: e.target.value }))} />
+          </div>
+          <div className="field">
+            <label>Label de scroll (ej. Desliza)</label>
+            <input type="text" value={hero.scroll_label} onChange={e => setHero(h => ({ ...h, scroll_label: e.target.value }))} />
+          </div>
+        </div>
+      </div>
+
       <BandEditor
         band="hero"
         label="Banda 1 — debajo del hero"

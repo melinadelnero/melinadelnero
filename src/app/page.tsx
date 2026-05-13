@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { SEED_EVENTS, SEED_SETS, SEED_GALLERY, SEED_BIO, SEED_CONTACT, SEED_MARQUEES } from '@/lib/seed'
+import { SEED_EVENTS, SEED_SETS, SEED_GALLERY, SEED_BIO, SEED_CONTACT, SEED_MARQUEES, SEED_HERO_TEXTS } from '@/lib/seed'
 import Loader from '@/components/primitives/Loader'
 import Cursor from '@/components/primitives/Cursor'
 import Marquee from '@/components/primitives/Marquee'
@@ -47,6 +47,7 @@ export default async function Home() {
   const bio = content?.bio ?? SEED_BIO
   const contact = content?.contact ?? SEED_CONTACT
   const marquees = content?.marquees ?? SEED_MARQUEES
+  const heroTexts = content?.hero ?? SEED_HERO_TEXTS
 
   return (
     <>
@@ -54,7 +55,7 @@ export default async function Home() {
       <div className="grain" />
       <Cursor />
       <Nav />
-      <Hero />
+      <Hero texts={heroTexts} />
       <Marquee items={marquees.hero} />
       <Bio data={bio} />
       <Events events={events} />

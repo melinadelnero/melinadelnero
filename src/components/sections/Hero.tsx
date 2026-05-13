@@ -1,8 +1,9 @@
 'use client'
 
 import HypnoticMark from '@/components/primitives/HypnoticMark'
+import type { HeroTexts } from '@/lib/types'
 
-export default function Hero() {
+export default function Hero({ texts }: { texts: HeroTexts }) {
   const now = new Date()
   const stamp =
     now.toISOString().slice(0, 10) +
@@ -35,10 +36,10 @@ export default function Hero() {
       <div className="hero-foot">
         <div className="scroll-cue">
           <span className="line" />
-          <span>Desliza</span>
+          <span>{texts.scroll_label}</span>
         </div>
-        <div>EST. 2018 — VOL. 08</div>
-        <div>CABINA <span style={{ color: 'var(--accent)' }}>✦</span> RITUAL</div>
+        <div>{texts.est} — {texts.vol}</div>
+        <div>{texts.tagline}</div>
       </div>
     </section>
   )

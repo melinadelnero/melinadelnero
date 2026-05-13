@@ -1,4 +1,4 @@
-import type { Event, Set, GalleryItem, Bio, ContactData, MarqueeSet } from './types'
+import type { Event, Set, GalleryItem, Bio, ContactData, MarqueeSet, HeroTexts } from './types'
 
 export const SEED_EVENTS: Event[] = [
   { id: 'e1', date: '2026-05-22', time: '23:00', name: 'RESONANCIA', venue: 'Crobar', city: 'Buenos Aires', status: 'tickets', url: '#', created_at: '' },
@@ -37,6 +37,13 @@ export const SEED_BIO: Bio = {
     { num: '120+', label: 'Sets · 2025' },
     { num: '14', label: 'Países visitados' },
   ],
+}
+
+export const SEED_HERO_TEXTS: HeroTexts = {
+  est: 'EST. 2022',
+  vol: 'VOL. 08',
+  tagline: 'CABINA ✦ RITUAL',
+  scroll_label: 'Desliza',
 }
 
 export const SEED_MARQUEES: MarqueeSet = {
