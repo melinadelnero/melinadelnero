@@ -8,6 +8,7 @@ export default function ResetPasswordPage() {
   const router = useRouter()
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [ready, setReady] = useState(false)
@@ -73,24 +74,42 @@ export default function ResetPasswordPage() {
               </p>
               <div className="field">
                 <label>Nueva contraseña</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="new-password"
-                  required
-                  minLength={8}
-                />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="new-password"
+                    required
+                    minLength={8}
+                    style={{ width: '100%', paddingRight: 44 }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(v => !v)}
+                    style={{
+                      position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontFamily: 'var(--f-mono)', fontSize: 9, letterSpacing: '0.1em',
+                      color: 'var(--ink-faint)', textTransform: 'uppercase', padding: 0,
+                    }}
+                  >
+                    {showPassword ? 'ocultar' : 'ver'}
+                  </button>
+                </div>
               </div>
               <div className="field">
                 <label>Repetir contraseña</label>
-                <input
-                  type="password"
-                  value={confirm}
-                  onChange={(e) => setConfirm(e.target.value)}
-                  autoComplete="new-password"
-                  required
-                />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={confirm}
+                    onChange={(e) => setConfirm(e.target.value)}
+                    autoComplete="new-password"
+                    required
+                    style={{ width: '100%', paddingRight: 44 }}
+                  />
+                </div>
               </div>
               {error && <div className="admin-error">{error}</div>}
               <button
