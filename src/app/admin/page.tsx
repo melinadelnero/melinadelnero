@@ -3,6 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import EventsPanel from '@/components/admin/EventsPanel'
+import SetsPanel from '@/components/admin/SetsPanel'
+import BioPanel from '@/components/admin/BioPanel'
+import ContactPanel from '@/components/admin/ContactPanel'
+import GalleryPanel from '@/components/admin/GalleryPanel'
 
 type Section = 'dashboard' | 'events' | 'sets' | 'gallery' | 'bio' | 'contact'
 
@@ -17,7 +22,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+    <div className="admin-wrap" style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <div className="admin">
         <aside className="admin-side">
           <div className="brand">MELINA <em>delnero</em></div>
@@ -40,23 +45,18 @@ export default function AdminPage() {
             ))}
           </nav>
 
-          <button className="admin-logout" onClick={logout} style={{ marginTop: 'auto' }}>
+          <button className="admin-logout" onClick={logout}>
             Cerrar sesión
           </button>
         </aside>
 
         <main className="admin-main">
           {section === 'dashboard' && <Dashboard />}
-          {section !== 'dashboard' && (
-            <div>
-              <div className="admin-head">
-                <h2>{section.charAt(0).toUpperCase() + section.slice(1)} <em>panel</em></h2>
-              </div>
-              <p style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--ink-dim)', letterSpacing: '0.12em' }}>
-                SECCIÓN EN CONSTRUCCIÓN — próximo sprint
-              </p>
-            </div>
-          )}
+          {section === 'events' && <EventsPanel />}
+          {section === 'sets' && <SetsPanel />}
+          {section === 'gallery' && <GalleryPanel />}
+          {section === 'bio' && <BioPanel />}
+          {section === 'contact' && <ContactPanel />}
         </main>
       </div>
     </div>

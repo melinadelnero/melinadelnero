@@ -453,6 +453,16 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
 .kicker { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-dim); }
 
+/* ---------- Admin cursor fix ---------- */
+.admin-wrap { cursor: auto; }
+.admin-wrap button { cursor: pointer; }
+.admin-wrap input, .admin-wrap textarea, .admin-wrap select { cursor: auto; }
+.admin-wrap .field input, .admin-wrap .field textarea, .admin-wrap .field select { cursor: auto; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+.btn-danger { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 10px 16px; background: none; border: 1px solid var(--line); color: var(--ink-dim); cursor: pointer; }
+.btn-danger:hover { border-color: var(--accent); color: var(--accent); }
+.modal-actions .btn-add { margin-left: auto; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .section { padding: 80px 24px; }
