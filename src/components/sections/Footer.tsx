@@ -27,7 +27,12 @@ export default function Footer() {
       <div className="footer-legal">
         <span>© {new Date().getFullYear()} MELINA DELNERO · ALL RIGHTS RESERVED</span>
         <span>BUENOS AIRES — AR</span>
-        <span>SITE V1.0 · CRAFTED IN BSAS</span>
+        <span style={{ color: 'var(--ink-faint)' }}>
+          Diseño y desarrollo web por{' '}
+          <a href="mailto:delneroezequiel@gmail.com" style={{ color: 'var(--ink-dim)', textDecoration: 'none' }}>
+            Ezequiel Delnero
+          </a>
+        </span>
       </div>
     </footer>
   )

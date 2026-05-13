@@ -5,17 +5,51 @@ import Reveal from '@/components/primitives/Reveal'
 import SectionHead from '@/components/primitives/SectionHead'
 import type { ContactData } from '@/lib/types'
 
+const EMPTY = { name: '', email: '', date: '', kind: 'club', message: '' }
+
 export default function Contact({ data }: { data: ContactData }) {
-  const [form, setForm] = useState({ name: '', email: '', date: '', kind: 'club', message: '' })
-  const [sent, setSent] = useState(false)
+  const [form, setForm] = useState(EMPTY)
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        setTimeout(() => {
+          setStatus('idle')
+          setForm(EMPTY)
+        }, 4000)
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 4000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 4000)
+    }
+  }
+
+  const btnLabel = {
+    idle: 'Solicitar fecha',
+    sending: 'Enviando...',
+    sent: 'Enviado ✓',
+    error: 'Error — reintentá',
+  }[status]
 
   return (
     <section className="section" id="contact" data-screen-label="05 Contacto">
       <SectionHead idx="05" title="BOOKING · CONTACTO" code="/ MAIL ME" />
-      <h2 className="section-title">Para <em>contratarla</em></h2>
+      <h2 className="section-title"><em>Booking</em></h2>
       <div className="contact">
         <Reveal>
-          <form className="contact-form" onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="field">
               <label>Nombre / Productora</label>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
@@ -42,8 +76,8 @@ export default function Contact({ data }: { data: ContactData }) {
               <label>Mensaje</label>
               <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Capacidad, horarios, soundsystem, presupuesto..." />
             </div>
-            <button type="submit" className="btn">
-              {sent ? 'Enviado ✓' : 'Solicitar fecha'}
+            <button type="submit" className="btn" disabled={status === 'sending' || status === 'sent'}>
+              {btnLabel}
             </button>
           </form>
         </Reveal>

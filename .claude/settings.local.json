@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias \"@/*\" --no-git --eslint --yes)",
+      "Bash(npx create-next-app@latest _tmp --typescript --tailwind --app --src-dir --import-alias \"@/*\" --no-git --eslint --yes)",
+      "Bash(npx create-next-app@latest tmp-scaffold --typescript --tailwind --app --src-dir --import-alias \"@/*\" --no-git --eslint --yes)",
+      "Bash(git config *)",
+      "Bash(git remote *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git branch *)",
+      "Bash(git merge *)",
+      "Bash(curl -s -X POST \"https://api.vercel.com/v1/integrations/deploy/prj_oZWm6kAjpndxoi6faUHvbOsFDHeQ/w7eT16GZXE\")",
+      "Bash(bash deploy.sh)",
+      "Bash(git commit -m 'feat: agregar retrato de Melina *)",
+      "Bash(git commit -m 'fix: aumentar altura set-info a 130px *)",
+      "Bash(git commit -m 'fix: hero title delnero completo en serif itálica roja *)",
+      "Bash(git commit -m 'fix: BandEditor fuera del componente padre para evitar pérdida de foco *)",
+      "Bash(git commit -m 'fix: nav mobile en dos filas + emails sin corte en mobile *)"
+    ]
+  }
+}
