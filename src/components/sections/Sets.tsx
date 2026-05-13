@@ -7,6 +7,7 @@ import type { Set } from '@/lib/types'
 
 function SetCard({ set }: { set: Set }) {
   const [playing, setPlaying] = useState(false)
+  const [thumbFailed, setThumbFailed] = useState(false)
   const thumb = `https://img.youtube.com/vi/${set.youtube_id}/hqdefault.jpg`
 
   return (
@@ -14,7 +15,17 @@ function SetCard({ set }: { set: Set }) {
       <div className="set-thumb">
         {!playing ? (
           <>
-            <img src={thumb} alt={set.title} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+            {!thumbFailed ? (
+              <img
+                src={thumb}
+                alt={set.title}
+                onError={() => setThumbFailed(true)}
+              />
+            ) : (
+              <div className="set-thumb-fallback">
+                <span>{set.genre ?? 'SET'}</span>
+              </div>
+            )}
             <span className="set-duration">{set.duration}</span>
             <button className="set-play" onClick={() => setPlaying(true)} aria-label="Play">▶</button>
           </>
