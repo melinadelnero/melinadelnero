@@ -30,7 +30,7 @@ export default function Hero() {
       </div>
       <div className="hero-title" style={{ position: 'relative', zIndex: 2 }}>
         MELINA<br />
-        DEL<em>nero</em>
+        <em>delnero</em>
       </div>
       <div className="hero-foot">
         <div className="scroll-cue">
