@@ -6,6 +6,17 @@ import type { Set } from '@/lib/types'
 
 const EMPTY = { title: '', youtube_id: '', duration: '', genre: '', date: '' }
 
+function extractYouTubeId(input: string): string {
+  // youtu.be/ID?si=... → ID
+  const shortMatch = input.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/)
+  if (shortMatch) return shortMatch[1]
+  // youtube.com/watch?v=ID&... → ID
+  const longMatch = input.match(/[?&]v=([a-zA-Z0-9_-]{11})/)
+  if (longMatch) return longMatch[1]
+  // already just the ID (strip any trailing ?... params)
+  return input.split('?')[0].trim()
+}
+
 export default function SetsPanel() {
   const [sets, setSets] = useState<Set[]>([])
   const [form, setForm] = useState(EMPTY)
@@ -115,7 +126,7 @@ export default function SetsPanel() {
               </div>
               <div className="field" style={{ gridColumn: '1 / -1' }}>
                 <label>YouTube ID *</label>
-                <input type="text" placeholder="ej. dQw4w9WgXcQ" value={form.youtube_id} onChange={e => setForm(f => ({ ...f, youtube_id: e.target.value.trim() }))} />
+                <input type="text" placeholder="ej. dQw4w9WgXcQ" value={form.youtube_id} onChange={e => setForm(f => ({ ...f, youtube_id: extractYouTubeId(e.target.value) }))} />
               </div>
               <div className="field">
                 <label>Género</label>
