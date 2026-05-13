@@ -1,5 +1,6 @@
 import Reveal from '@/components/primitives/Reveal'
 import SectionHead from '@/components/primitives/SectionHead'
+import PortraitImg from '@/components/primitives/PortraitImg'
 import type { Bio as BioData } from '@/lib/types'
 
 export default function Bio({ data }: { data: BioData }) {
@@ -9,7 +10,7 @@ export default function Bio({ data }: { data: BioData }) {
       <div className="bio">
         <Reveal>
           <div className="bio-photo">
-            <img src="/melina-portrait.jpg" alt="Melina Delnero" />
+            <PortraitImg />
             <span className="bio-photo-tag">RES_01 · LIVE FROM CABINA</span>
           </div>
         </Reveal>
