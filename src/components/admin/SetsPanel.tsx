@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Set } from '@/lib/types'
+import AdminDialog, { useAdminDialog } from './AdminDialog'
 
 const EMPTY = { title: '', youtube_id: '', duration: '', genre: '', date: '' }
 
@@ -23,6 +24,7 @@ export default function SetsPanel() {
   const [editing, setEditing] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState(false)
+  const { cfg, showConfirm, close: closeDialog } = useAdminDialog()
 
   const supabase = createClient()
 
@@ -61,10 +63,11 @@ export default function SetsPanel() {
     load()
   }
 
-  const del = async (id: string) => {
-    if (!confirm('¿Eliminar este set?')) return
-    await supabase.from('sets').delete().eq('id', id)
-    load()
+  const del = (id: string) => {
+    showConfirm('¿Eliminar este set? Esta acción no se puede deshacer.', async () => {
+      await supabase.from('sets').delete().eq('id', id)
+      load()
+    })
   }
 
   const ytThumb = (id: string) => `https://img.youtube.com/vi/${id}/mqdefault.jpg`
@@ -113,6 +116,8 @@ export default function SetsPanel() {
           </tbody>
         </table>
       </div>
+
+      <AdminDialog {...cfg} onClose={closeDialog} />
 
       {modal && (
         <div className="modal-back" onClick={e => { if (e.target === e.currentTarget) close() }}>

@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { GalleryItem, GallerySize } from '@/lib/types'
+import AdminDialog, { useAdminDialog } from './AdminDialog'
 
 const SIZES: GallerySize[] = ['lg', 'tall', 'wide', 'sq', 'row', 'hero']
 const EMPTY = { size: 'sq' as GallerySize, tag: '' }
@@ -15,6 +16,7 @@ export default function GalleryPanel() {
   const [uploading, setUploading] = useState(false)
   const [modal, setModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+  const { cfg, showAlert, showConfirm, close: closeDialog } = useAdminDialog()
 
   const supabase = createClient()
   const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -46,7 +48,7 @@ export default function GalleryPanel() {
       const ext = file.name.split('.').pop()
       const path = `${Date.now()}.${ext}`
       const { error } = await supabase.storage.from('gallery').upload(path, file, { upsert: false })
-      if (error) { alert(`Error al subir imagen: ${error.message}`); setUploading(false); return }
+      if (error) { showAlert(`Error al subir imagen: ${error.message}`); setUploading(false); return }
       storage_path = path
     }
 
@@ -63,13 +65,14 @@ export default function GalleryPanel() {
     load()
   }
 
-  const del = async (item: GalleryItem) => {
-    if (!confirm('¿Eliminar esta foto?')) return
-    if (item.storage_path) {
-      await supabase.storage.from('gallery').remove([item.storage_path])
-    }
-    await supabase.from('gallery').delete().eq('id', item.id)
-    load()
+  const del = (item: GalleryItem) => {
+    showConfirm('¿Eliminar esta foto? Se borrará también el archivo de Storage.', async () => {
+      if (item.storage_path) {
+        await supabase.storage.from('gallery').remove([item.storage_path])
+      }
+      await supabase.from('gallery').delete().eq('id', item.id)
+      load()
+    })
   }
 
   return (
@@ -120,6 +123,8 @@ export default function GalleryPanel() {
           </tbody>
         </table>
       </div>
+
+      <AdminDialog {...cfg} onClose={closeDialog} />
 
       {modal && (
         <div className="modal-back" onClick={e => { if (e.target === e.currentTarget) close() }}>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Event, EventStatus } from '@/lib/types'
+import AdminDialog, { useAdminDialog } from './AdminDialog'
 
 const EMPTY = { date: '', time: '', name: '', venue: '', city: '', status: 'tickets' as EventStatus, url: '' }
 
@@ -12,6 +13,7 @@ export default function EventsPanel() {
   const [editing, setEditing] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState(false)
+  const { cfg, showConfirm, close: closeDialog } = useAdminDialog()
 
   const supabase = createClient()
 
@@ -52,10 +54,11 @@ export default function EventsPanel() {
     load()
   }
 
-  const del = async (id: string) => {
-    if (!confirm('¿Eliminar este evento?')) return
-    await supabase.from('events').delete().eq('id', id)
-    load()
+  const del = (id: string) => {
+    showConfirm('¿Eliminar este evento? Esta acción no se puede deshacer.', async () => {
+      await supabase.from('events').delete().eq('id', id)
+      load()
+    })
   }
 
   const statusLabel = (s: EventStatus) => ({ tickets: 'Tickets', free: 'Free', soldout: 'Sold Out' })[s]
@@ -102,6 +105,8 @@ export default function EventsPanel() {
           </tbody>
         </table>
       </div>
+
+      <AdminDialog {...cfg} onClose={closeDialog} />
 
       {modal && (
         <div className="modal-back" onClick={e => { if (e.target === e.currentTarget) close() }}>
