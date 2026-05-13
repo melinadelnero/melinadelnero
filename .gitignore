@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project files — handoff bundle y assets locales (no van al repo)
+/melinadelnero-handoff/
+Screenshot_*.jpg
+INSTRUCCIONES-CLAUDE-CODE.md
+
+# env (keep example, ignore locals)
+!.env.example
