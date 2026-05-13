@@ -47,3 +47,6 @@ INSTRUCCIONES-CLAUDE-CODE.md
 
 # env (keep example, ignore locals)
 !.env.example
+
+# deploy hook (contiene URL secreta)
+deploy.sh
