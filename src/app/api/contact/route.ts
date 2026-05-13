@@ -1,8 +1,6 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const KIND_LABEL: Record<string, string> = {
   club: 'Club / Boliche',
   festival: 'Festival',
@@ -12,6 +10,7 @@ const KIND_LABEL: Record<string, string> = {
 }
 
 export async function POST(req: Request) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const { name, email, date, kind, message } = await req.json()
 
   if (!name || !email) {
