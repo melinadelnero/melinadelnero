@@ -8,8 +8,9 @@ import SetsPanel from '@/components/admin/SetsPanel'
 import BioPanel from '@/components/admin/BioPanel'
 import ContactPanel from '@/components/admin/ContactPanel'
 import GalleryPanel from '@/components/admin/GalleryPanel'
+import MarqueesPanel from '@/components/admin/MarqueesPanel'
 
-type Section = 'dashboard' | 'events' | 'sets' | 'gallery' | 'bio' | 'contact'
+type Section = 'dashboard' | 'events' | 'sets' | 'gallery' | 'bio' | 'contact' | 'marquees'
 
 export default function AdminPage() {
   const router = useRouter()
@@ -29,7 +30,7 @@ export default function AdminPage() {
           <div className="tag">Panel de admin</div>
 
           <nav className="admin-nav">
-            {(['dashboard', 'events', 'sets', 'gallery', 'bio', 'contact'] as Section[]).map((s) => (
+            {(['dashboard', 'events', 'sets', 'gallery', 'bio', 'contact', 'marquees'] as Section[]).map((s) => (
               <button
                 key={s}
                 className={section === s ? 'active' : ''}
@@ -41,6 +42,7 @@ export default function AdminPage() {
                 {s === 'gallery' && '→ Galería'}
                 {s === 'bio' && '→ Bio'}
                 {s === 'contact' && '→ Contacto'}
+                {s === 'marquees' && '→ Marquees'}
               </button>
             ))}
           </nav>
@@ -57,6 +59,7 @@ export default function AdminPage() {
           {section === 'gallery' && <GalleryPanel />}
           {section === 'bio' && <BioPanel />}
           {section === 'contact' && <ContactPanel />}
+          {section === 'marquees' && <MarqueesPanel />}
         </main>
       </div>
     </div>

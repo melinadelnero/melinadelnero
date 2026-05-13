@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { SEED_EVENTS, SEED_SETS, SEED_GALLERY, SEED_BIO, SEED_CONTACT } from '@/lib/seed'
+import { SEED_EVENTS, SEED_SETS, SEED_GALLERY, SEED_BIO, SEED_CONTACT, SEED_MARQUEES } from '@/lib/seed'
 import Loader from '@/components/primitives/Loader'
 import Cursor from '@/components/primitives/Cursor'
 import Marquee from '@/components/primitives/Marquee'
@@ -46,6 +46,7 @@ export default async function Home() {
 
   const bio = content?.bio ?? SEED_BIO
   const contact = content?.contact ?? SEED_CONTACT
+  const marquees = content?.marquees ?? SEED_MARQUEES
 
   return (
     <>
@@ -54,26 +55,10 @@ export default async function Home() {
       <Cursor />
       <Nav />
       <Hero />
-      <Marquee
-        items={[
-          'MELINA /em/delnero',
-          'BSAS — AR',
-          'BOOKING /em/open',
-          'EST. 2018',
-          'MELODIC · TECHNO · HOUSE',
-          'CABINA /em/ritual',
-        ]}
-      />
+      <Marquee items={marquees.hero} />
       <Bio data={bio} />
       <Events events={events} />
-      <Marquee
-        items={[
-          'PRÓXIMA /em/fecha',
-          'RESONANCIA · CROBAR · 22.MAY',
-          'TICKETS /em/abiertos',
-          '↓ ↓ ↓',
-        ]}
-      />
+      <Marquee items={marquees.events} />
       <Sets sets={sets} />
       <Gallery items={gallery} />
       <Contact data={contact} />

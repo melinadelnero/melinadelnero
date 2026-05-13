@@ -53,9 +53,15 @@ export interface ContactData {
   agency: string
 }
 
+export interface MarqueeSet {
+  hero: string[]
+  events: string[]
+}
+
 export interface SiteContent {
   id: number
   bio: Bio
   contact: ContactData
+  marquees?: MarqueeSet
   updated_at: string
 }

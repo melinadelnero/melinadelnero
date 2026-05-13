@@ -28,7 +28,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+    <div className="admin-wrap" style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <div className="admin-login">
         <div className="admin-login-card">
           <div className="seal">
@@ -66,7 +66,7 @@ export default function LoginPage() {
               type="submit"
               className="btn"
               disabled={loading}
-              style={{ cursor: loading ? 'wait' : 'none', marginTop: 32 }}
+              style={{ cursor: loading ? 'wait' : 'pointer', marginTop: 32 }}
             >
               {loading ? 'Ingresando...' : 'Ingresar'}
             </button>
