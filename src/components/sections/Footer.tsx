@@ -29,7 +29,7 @@ export default function Footer() {
         <span>BUENOS AIRES — AR</span>
         <span style={{ color: 'var(--ink-faint)' }}>
           Diseño y desarrollo web por{' '}
-          <a href="mailto:delneroezequiel@gmail.com" style={{ color: 'var(--ink-dim)', textDecoration: 'none' }}>
+          <a href="https://ezequiel-web.vercel.app" target="_blank" rel="noreferrer" style={{ color: 'var(--ink-dim)', textDecoration: 'none' }}>
             Ezequiel Delnero
           </a>
         </span>
