@@ -1,4 +1,3 @@
-import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
 const KIND_LABEL: Record<string, string> = {
@@ -10,6 +9,7 @@ const KIND_LABEL: Record<string, string> = {
 }
 
 export async function POST(req: Request) {
+  const { Resend } = await import('resend')
   const resend = new Resend(process.env.RESEND_API_KEY)
   const { name, email, date, kind, message } = await req.json()
 
