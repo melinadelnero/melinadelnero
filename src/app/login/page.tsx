@@ -139,7 +139,7 @@ export default function LoginPage() {
                 disabled={loading || !!info}
                 style={{ cursor: loading ? 'wait' : 'pointer', marginTop: 32 }}
               >
-                {loading ? 'Enviando...' : 'Enviar link →'}
+                {loading ? 'Enviando...' : 'Enviar link'}
               </button>
               <div style={{ marginTop: 20 }}>
                 <button
