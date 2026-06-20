@@ -3,14 +3,20 @@ import SectionHead from '@/components/primitives/SectionHead'
 import PortraitImg from '@/components/primitives/PortraitImg'
 import type { Bio as BioData } from '@/lib/types'
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
+
 export default function Bio({ data }: { data: BioData }) {
+  const portraitSrc = data.portrait_path
+    ? `${SUPABASE_URL}/storage/v1/object/public/gallery/${data.portrait_path}`
+    : null
+
   return (
     <section className="section" id="bio" data-screen-label="01 Bio">
       <SectionHead idx="01" title="QUIÉN ES" code="/ ABOUT" />
       <div className="bio">
         <Reveal>
           <div className="bio-photo">
-            <PortraitImg />
+            <PortraitImg src={portraitSrc} />
             <span className="bio-photo-tag">RES_01 · LIVE FROM CABINA</span>
           </div>
         </Reveal>

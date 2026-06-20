@@ -42,6 +42,7 @@ export interface Bio {
   body2: string
   quote: string
   stats: BioStat[]
+  portrait_path?: string
 }
 
 export interface ContactData {

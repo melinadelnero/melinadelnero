@@ -47,6 +47,14 @@ export default function GalleryPanel() {
     if (file) {
       const ext = file.name.split('.').pop()
       const path = `${Date.now()}.${ext}`
+
+      if (editing) {
+        const existing = items.find(i => i.id === editing)
+        if (existing?.storage_path) {
+          await supabase.storage.from('gallery').remove([existing.storage_path])
+        }
+      }
+
       const { error } = await supabase.storage.from('gallery').upload(path, file, { upsert: false })
       if (error) { showAlert(`Error al subir imagen: ${error.message}`); setUploading(false); return }
       storage_path = path

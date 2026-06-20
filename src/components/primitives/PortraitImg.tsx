@@ -1,9 +1,9 @@
 'use client'
 
-export default function PortraitImg() {
+export default function PortraitImg({ src }: { src?: string | null }) {
   return (
     <img
-      src="/melina-portrait.jpg"
+      src={src || '/melina-portrait.jpg'}
       alt="Melina Delnero"
       onError={e => {
         const el = e.target as HTMLImageElement
