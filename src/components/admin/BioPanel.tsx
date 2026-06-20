@@ -96,17 +96,16 @@ export default function BioPanel() {
   const dropZoneStyle: React.CSSProperties = {
     border: `1.5px dashed ${dragOver ? 'var(--accent)' : 'var(--border)'}`,
     borderRadius: 4,
-    padding: 0,
     cursor: 'pointer',
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
     background: dragOver ? 'rgba(var(--accent-rgb, 180,0,0), 0.04)' : 'var(--bg-elev)',
     transition: 'border-color 0.15s, background 0.15s',
     overflow: 'hidden',
-    minHeight: 180,
+    width: 140,
+    height: 140,
+    flexShrink: 0,
     position: 'relative',
   }
 
@@ -126,44 +125,59 @@ export default function BioPanel() {
         <p style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--ink-dim)', letterSpacing: '0.12em', marginBottom: 16 }}>
           ARRASTRÁ UNA IMAGEN O HACÉ CLIC — SE REEMPLAZA LA ANTERIOR AUTOMÁTICAMENTE
         </p>
-        <div
-          style={dropZoneStyle}
-          onDragOver={e => { e.preventDefault(); setDragOver(true) }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-          onClick={() => fileRef.current?.click()}
-        >
-          {displaySrc ? (
-            <>
-              <img
-                src={displaySrc}
-                alt="Retrato actual"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-              <div style={{
-                position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
-                justifyContent: 'center', background: 'rgba(0,0,0,0.45)',
-                opacity: 0, transition: 'opacity 0.15s',
-              }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
-              >
-                <span style={{ fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.15em', color: '#fff' }}>
-                  CAMBIAR FOTO
-                </span>
-              </div>
-            </>
-          ) : (
-            <span style={{ fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.12em', color: 'var(--ink-faint)' }}>
-              ARRASTRÁ O HACÉ CLIC
-            </span>
-          )}
+        <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+          <div
+            style={dropZoneStyle}
+            onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => fileRef.current?.click()}
+          >
+            {displaySrc ? (
+              <>
+                <img
+                  src={displaySrc}
+                  alt="Retrato actual"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <div style={{
+                  position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', background: 'rgba(0,0,0,0.5)',
+                  opacity: 0, transition: 'opacity 0.15s',
+                }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                >
+                  <span style={{ fontFamily: 'var(--f-mono)', fontSize: 9, letterSpacing: '0.15em', color: '#fff' }}>
+                    CAMBIAR
+                  </span>
+                </div>
+              </>
+            ) : (
+              <span style={{ fontFamily: 'var(--f-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'var(--ink-faint)', textAlign: 'center', padding: 12 }}>
+                ARRASTRÁ<br />O HACÉ CLIC
+              </span>
+            )}
+          </div>
+          <div style={{ paddingTop: 4 }}>
+            {portraitFile ? (
+              <p style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--ink-dim)', letterSpacing: '0.1em', margin: 0 }}>
+                {portraitFile.name}<br />
+                <span style={{ color: 'var(--ink-faint)' }}>se subirá al guardar</span>
+              </p>
+            ) : currentPortraitUrl ? (
+              <p style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--ink-dim)', letterSpacing: '0.1em', margin: 0 }}>
+                Foto cargada<br />
+                <span style={{ color: 'var(--ink-faint)' }}>hacé clic para reemplazar</span>
+              </p>
+            ) : (
+              <p style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.1em', margin: 0 }}>
+                Sin foto cargada<br />
+                <span style={{ color: 'var(--ink-faint)' }}>usa el fallback local</span>
+              </p>
+            )}
+          </div>
         </div>
-        {portraitFile && (
-          <p style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--ink-dim)', letterSpacing: '0.1em', marginTop: 8 }}>
-            {portraitFile.name} — se subirá al guardar
-          </p>
-        )}
         <input
           ref={fileRef}
           type="file"
