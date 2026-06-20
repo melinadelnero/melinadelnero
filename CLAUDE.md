@@ -47,7 +47,7 @@ src/
 │   │   ├── Marquee.tsx           — Banda de texto animado (sintaxis /em/ para rojo)
 │   │   ├── Reveal.tsx            — Animación de entrada
 │   │   ├── SectionHead.tsx       — Cabecera numerada de sección
-│   │   └── PortraitImg.tsx       — 'use client' — img con onError
+│   │   └── PortraitImg.tsx       — 'use client' — img con onError, acepta prop src (fallback a /melina-portrait.jpg)
 │   ├── sections/
 │   │   ├── Nav.tsx, Hero.tsx, Bio.tsx, Events.tsx
 │   │   ├── Sets.tsx, Gallery.tsx, Contact.tsx, Footer.tsx
@@ -56,7 +56,7 @@ src/
 │       ├── EventsPanel.tsx       — CRUD eventos
 │       ├── SetsPanel.tsx         — CRUD sets YouTube
 │       ├── GalleryPanel.tsx      — Upload/gestión galería (Supabase Storage)
-│       ├── BioPanel.tsx          — Editor bio + stats
+│       ├── BioPanel.tsx          — Editor bio + stats + upload foto de perfil (drag-and-drop)
 │       ├── ContactPanel.tsx      — Editor datos de contacto
 │       └── MarqueesPanel.tsx     — Editor textos marquee + hero footer
 └── lib/
@@ -72,6 +72,7 @@ events        — id, date, time, name, venue, city, status, url, created_at
 sets          — id, title, youtube_id, duration, genre, date, created_at
 gallery       — id, size, tag, storage_path, created_at
 site_content  — id=1 (fila única), bio jsonb, contact jsonb, marquees jsonb, hero jsonb
+                bio incluye: body1, body2, quote, stats[], portrait_path (path en bucket gallery)
 ```
 
 Storage: bucket `gallery` (público). RLS habilitado — escritura solo para authenticated.
@@ -106,6 +107,10 @@ RESEND_API_KEY
 **Deploy:** Siempre `git push origin main` ANTES o junto con `bash deploy.sh`.
 
 **Reset password:** Requiere que `https://melinadelnero.vercel.app/reset-password` esté en Supabase → Authentication → URL Configuration → Redirect URLs.
+
+**Portrait (foto de perfil Bio):** Se sube desde BioPanel al bucket `gallery` con path `portrait_TIMESTAMP.ext`. Se guarda en `site_content.bio.portrait_path`. Al reemplazar: se borra el archivo viejo ANTES de subir el nuevo (no quedan huérfanos). `Bio.tsx` construye la URL pública y la pasa a `PortraitImg`. Fallback: `/melina-portrait.jpg` (archivo local en `/public`).
+
+**Storage huérfanos:** Tanto en BioPanel (portrait) como en GalleryPanel (galería), al reemplazar una imagen se elimina el archivo viejo de Storage antes de subir el nuevo. No se necesita ningún trigger SQL — se maneja a nivel de aplicación.
 
 ## Flujo de datos (Home)
 
